@@ -79,7 +79,7 @@ options.addArguments("--disable-dev-shm-usage");
 ---
 
 ### **2️⃣ Acessando a Página Inicial**
-O scraper acessa a **página de álbuns da Yupoo** e coleta todos os links:
+O scraper acessa a **página de álbuns da Loja Virtual** e coleta todos os links:
 ```javascript
 await driver.get(base_url);
 await driver.sleep(3000);
@@ -199,9 +199,8 @@ Este projeto é distribuído sob a licença **MIT**.
 ---
 
 ## **Conclusão**
-Este **web scraper** permite coletar **screenshots automaticamente** dos álbuns do **Yupoo** de maneira eficiente. Ele pode ser expandido para:
+Este **web scraper** permite coletar **screenshots automaticamente** dos álbuns da **Loja Virtual** de maneira eficiente. Ele pode ser expandido para:
 - **Baixar imagens automaticamente**.
 - **Capturar informações adicionais (preço, descrição, etc.)**.
 - **Integrar com uma API para armazenar dados**.
 
-Agora você pode rodar o scraper e capturar todas as imagens que precisar! 🚀
