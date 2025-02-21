@@ -1,0 +1,21 @@
+{
+    "name": "dropshipping-scraper",
+    "version": "1.0.0",
+    "description": "Web scraper para capturar screenshots de imagens na loja usando Node.js e Selenium WebDriver.",
+    "main": "scraping.js",
+    "scripts": {
+      "start": "node scraping.js"
+    },
+    "dependencies": {
+      "selenium-webdriver": "^4.14.1",
+      "chromedriver": "^118.0.0",
+      "fs-extra": "^11.1.1"
+    },
+    "devDependencies": {},
+    "engines": {
+      "node": ">=16.0.0"
+    },
+    "author": "Adalberto Carvalho",
+    "license": "MIT"
+  }
+  

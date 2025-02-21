@@ -15,7 +15,7 @@ options.addArguments("--log-level=3");
 options.addArguments("--remote-debugging-port=9222");
 options.addArguments("--blink-settings=imagesEnabled=true"); // Garantir que as imagens carreguem
 
-(async function scrapYupoo() {
+(async function scrapLoja() {
     let driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();
 
     try {
@@ -23,7 +23,7 @@ options.addArguments("--blink-settings=imagesEnabled=true"); // Garantir que as 
         const base_url = "https://hsquan996.x.yupoo.com/albums?tab=gallery";
 
         // Criar diretório para salvar as imagens
-        const outputDir = "yupoo_screenshots";
+        const outputDir = "imagens-salvas";
         fs.ensureDirSync(outputDir);
 
         console.log("\n Acessando a página inicial...");
