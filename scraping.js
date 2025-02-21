@@ -5,7 +5,7 @@ const chrome = require('selenium-webdriver/chrome');
 
 // Configuração do Selenium
 const options = new chrome.Options();
-options.addArguments("--headless=new"); // Modo headless atualizado
+options.addArguments("--headless=new"); 
 options.addArguments("--disable-gpu");
 options.addArguments("--disable-software-rasterizer");
 options.addArguments("--disable-extensions");
@@ -13,7 +13,7 @@ options.addArguments("--disable-dev-shm-usage");
 options.addArguments("--disable-logging");
 options.addArguments("--log-level=3");
 options.addArguments("--remote-debugging-port=9222");
-options.addArguments("--blink-settings=imagesEnabled=true"); // Garantir que as imagens carreguem
+options.addArguments("--blink-settings=imagesEnabled=true");
 
 (async function scrapLoja() {
     let driver = await new Builder().forBrowser('chrome').setChromeOptions(options).build();

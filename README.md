@@ -1,5 +1,5 @@
-# **📖 Documentação - Web Scraper para Yupoo**
-## **📌 Descrição**
+# **Documentação - Web Scraper para loja virtual**
+## **Descrição**
 Projeto é um **web scraper** desenvolvido em **Node.js** com **Selenium WebDriver**. Ele acessa a página da loja **Yupoo**, coleta os links dos álbuns, acessa cada um deles e captura **screenshots das imagens** disponíveis.
 
 O scraper **navega automaticamente** pelos álbuns, tira **prints das miniaturas e imagens grandes**, e salva todas as capturas em **pastas organizadas**.
@@ -55,7 +55,7 @@ npm install chromedriver --save
 
 ---
 
-## **🚀 Como Executar**
+## **Como Executar**
 Para rodar o scraper:
 ```sh
 node scraping.js
@@ -148,7 +148,7 @@ await driver.sleep(2000);
 
 ---
 
-## **📌 Personalização**
+## **Personalização**
 ### **✅ Definir a Quantidade de Álbuns**
 Se quiser capturar mais álbuns, altere:
 ```javascript
@@ -175,7 +175,7 @@ await driver.sleep(3000); // 3 segundos
 
 ---
 
-## **📌 Contribuições**
+## **Contribuições**
 Se quiser contribuir:
 1. **Faça um Fork** do repositório
 2. **Crie uma branch** para sua feature:
@@ -198,7 +198,7 @@ Este projeto é distribuído sob a licença **MIT**.
 
 ---
 
-## **🎯 Conclusão**
+## **Conclusão**
 Este **web scraper** permite coletar **screenshots automaticamente** dos álbuns do **Yupoo** de maneira eficiente. Ele pode ser expandido para:
 - **Baixar imagens automaticamente**.
 - **Capturar informações adicionais (preço, descrição, etc.)**.
