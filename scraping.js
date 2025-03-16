@@ -26,94 +26,84 @@ options.addArguments("--blink-settings=imagesEnabled=true");
         const outputDir = "imagens-salvas";
         fs.ensureDirSync(outputDir);
 
-        console.log("\n Acessando a página inicial...");
+        console.log("\n🌍 Acessando a página inicial...");
         await driver.get(base_url);
         await driver.sleep(3000);
 
-        // Coletar os links de cada álbum
+        // Coletar os links e nomes dos álbuns
         const produtos = await driver.findElements(By.css("a.album__main"));
-        let prodLinks = [];
+        let albuns = [];
 
         for (let produto of produtos) {
             let link = await produto.getAttribute("href");
-            prodLinks.push(link);
+            let nome = await produto.getAttribute("title"); // Obtém o nome do álbum
+            nome = nome.replace(/[<>:"\/\\|?*]+/g, ""); // Remove caracteres inválidos no nome da pasta
+            albuns.push({ nome, link });
         }
 
-        console.log(`Encontrados ${prodLinks.length} álbuns.`);
+        console.log(`🔍 Encontrados ${albuns.length} álbuns.`);
 
         // Limitar para os primeiros 5 álbuns
-        for (let index = 0; index < Math.min(5, prodLinks.length); index++) {
-            let link = prodLinks[index];
-            console.log(`\n - Acessando álbum ${index + 1}/5: ${link}`);
+        for (let index = 0; index < Math.min(5, albuns.length); index++) {
+            let { nome, link } = albuns[index];
+            console.log(`\n📂 Acessando álbum ${index + 1}/5: ${nome} - ${link}`);
 
             try {
                 await driver.get(link);
                 await driver.sleep(3000);
 
-                // **1️ Simular Scroll para carregar todas as imagens**
+                // **1️⃣ Simular Scroll para carregar todas as imagens**
                 await driver.executeScript("window.scrollTo(0, document.body.scrollHeight);");
                 await driver.sleep(3000);
 
-                // **2️ Esperar o carregamento completo das miniaturas**
+                // **2️⃣ Esperar o carregamento completo das miniaturas**
                 await driver.wait(until.elementsLocated(By.css("img.image__img")), 10000);
 
             } catch (e) {
-                console.error(`Erro ao acessar ${link}: ${e}`);
+                console.error(`❌ Erro ao acessar ${link}: ${e}`);
                 continue;
             }
 
-            // Criar pasta para cada álbum
-            const produtoNome = `album_${index + 1}`;
-            const produtoDir = path.join(outputDir, produtoNome);
+            // Criar pasta para o álbum com o nome do produto
+            const produtoDir = path.join(outputDir, nome);
             fs.ensureDirSync(produtoDir);
 
-            // **3️ Capturar Screenshots das Miniaturas**
-            let imagens = await driver.findElements(By.css("img.image__img"));
+            // **3️⃣ Capturar Screenshots das Imagens Grandes**
+            let botoesVerDetalhe = await driver.findElements(By.css("div.image__clickhandle"));
 
-            for (let idx = 0; idx < imagens.length; idx++) {
+            for (let idx = 0; idx < botoesVerDetalhe.length; idx++) {
                 try {
-                    // **Captura a miniatura**
-                    let imgPath = path.join(produtoDir, `screenshot_miniatura_${idx + 1}.png`);
-                    await imagens[idx].takeScreenshot().then((data) => {
-                        fs.writeFileSync(imgPath, data, "base64");
+                    // **4️⃣ Clicar na Miniatura para Abrir a Imagem Maior**
+                    await driver.executeScript("arguments[0].click();", botoesVerDetalhe[idx]);
+                    await driver.sleep(3000);
+
+                    // **5️⃣ Esperar a Imagem Grande Carregar no Layout Correto**
+                    await driver.wait(until.elementLocated(By.css("div.viewer__imagewrap img.viewer__img")), 10000);
+
+                    // **6️⃣ Capturar Screenshot da Imagem Maior**
+                    let imgGrandeElement = await driver.findElement(By.css("div.viewer__imagewrap img.viewer__img"));
+                    let imgGrandePath = path.join(produtoDir, `imagem_${idx + 1}.png`);
+                    await imgGrandeElement.takeScreenshot().then((data) => {
+                        fs.writeFileSync(imgGrandePath, data, "base64");
                     });
 
-                    console.log(`✅ Screenshot da miniatura ${idx + 1} salva em: ${imgPath}`);
+                    console.log(`✅ Screenshot da imagem grande ${idx + 1} salva em: ${imgGrandePath}`);
 
-                    // **4️ Clicar na Miniatura para Abrir a Imagem Maior**
-                    let botoesVerDetalhe = await driver.findElements(By.css("div.image__clickhandle"));
-                    if (idx < botoesVerDetalhe.length) {
-                        await driver.executeScript("arguments[0].click();", botoesVerDetalhe[idx]);
-                        await driver.sleep(3000);
-
-                        // **5️ Esperar a Imagem Grande Carregar no Layout Correto**
-                        await driver.wait(until.elementLocated(By.css("div.viewer__imagewrap img.viewer__img")), 10000);
-
-                        // **6️ Capturar Screenshot da Imagem Maior**
-                        let imgGrandeElement = await driver.findElement(By.css("div.viewer__imagewrap img.viewer__img"));
-                        let imgGrandePath = path.join(produtoDir, `screenshot_grande_${idx + 1}.png`);
-                        await imgGrandeElement.takeScreenshot().then((data) => {
-                            fs.writeFileSync(imgGrandePath, data, "base64");
-                        });
-
-                        console.log(`✅ Screenshot da imagem grande ${idx + 1} salva em: ${imgGrandePath}`);
-
-                        // **7️ Fechar a Imagem Expandida**
-                        let botaoFechar = await driver.findElement(By.css("a#viewer__close"));
-                        await driver.executeScript("arguments[0].click();", botaoFechar);
-                        await driver.sleep(2000);
-                    }
+                    // **7️⃣ Fechar a Imagem Expandida**
+                    let botaoFechar = await driver.findElement(By.css("a#viewer__close"));
+                    await driver.executeScript("arguments[0].click();", botaoFechar);
+                    await driver.sleep(2000);
 
                 } catch (e) {
-                    console.error(`Erro ao capturar screenshot ${idx + 1}: ${e}`);
+                    console.error(`❌ Erro ao capturar screenshot ${idx + 1}: ${e}`);
                 }
             }
         }
 
-        console.log("\n Captura de imagens concluída!");
+        console.log("\n🎉 Captura de imagens concluída!");
 
     } catch (e) {
-        console.error("Erro geral:", e);
+        console.error("❌ Erro geral:", e);
     } finally {
         await driver.quit();
     }
