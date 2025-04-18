@@ -10,7 +10,7 @@ function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center gap-2">
             <ShoppingBag className="w-8 h-8 text-green-600" />
-            <h1 className="text-2xl font-bold text-gray-900">Loja Virtual</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Loja Virtual - Roni</h1>
           </div>
         </div>
       </header>

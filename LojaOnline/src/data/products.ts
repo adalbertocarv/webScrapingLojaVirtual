@@ -58,5 +58,13 @@ export const products: Product[] = [
       "/produtos/25-26 Gremio Home Novo Patrocinador S-4XL/imagem_1.png",
       "/produtos/25-26 Gremio Home Novo Patrocinador S-4XL/imagem_2.png"
     ]
+  },
+  {
+    "id": "5",
+    "name": "25-26 Regata Corinthians Treino Roxa S-XXL",
+    "directory": "25-26 Regata Corinthians Treino Roxa S-XXL",
+    "images": [
+      "/produtos/25-26 Regata Corinthians Treino Roxa S-XXL/imagem_1.png"
+    ]
   }
 ];

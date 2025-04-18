@@ -5,4 +5,4 @@ export interface Product {
   directory: string;
 }
 
-export const WHATSAPP_NUMBER = '5561992930629';
+export const WHATSAPP_NUMBER = '61992234566';
